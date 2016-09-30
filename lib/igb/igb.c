@@ -1113,20 +1113,30 @@ unlock:
 
 static inline void rdtscpll( uint64_t *val ) {
 	uint32_t high, low;
-	__asm__ __volatile__( "lfence;"
+
+#if defined(__arm__) && defined(__ARM_EABI__)
+	asm volatile("mrc p15, 0, %0, c9, c13, 0" : "=r"(low) );
+	*val = low;						  
+#else
+	 __asm__ __volatile__( "lfence;"
 						  "rdtsc;"
 						  : "=d"(high), "=a"(low)
 						  :
 						  : "memory" );
 	*val = high;
 	*val = (*val << 32) | low;
+#endif
 }
 
 static inline void __sync() {
+#if defined(__arm__) && defined(__ARM_EABI__)
+	asm volatile ("" : : : "memory");
+#else
 	__asm__ __volatile__( "mfence;"
 						  :
 						  :
 						  : "memory" );
+#endif
 }
 
 int

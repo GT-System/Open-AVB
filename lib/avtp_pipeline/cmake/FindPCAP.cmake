@@ -45,40 +45,12 @@
 #  PCAP_FOUND       - True if pcap found.
 
 
-IF(EXISTS $ENV{PCAPDIR})
-  FIND_PATH(PCAP_INCLUDE_DIR
-    NAMES
-    pcap/pcap.h
-    pcap.h
-    PATHS
-      $ENV{PCAPDIR}
-    NO_DEFAULT_PATH
-  )
+include(LibFindMacros)
 
-  FIND_LIBRARY(PCAP_LIBRARY
-    NAMES
-      pcap
-    PATHS
-      $ENV{PCAPDIR}
-    NO_DEFAULT_PATH
-  )
-
-
-ELSE(EXISTS $ENV{PCAPDIR})
-  FIND_PATH(PCAP_INCLUDE_DIR
-    NAMES
-    pcap/pcap.h
-    pcap.h
-  )
-
-  FIND_LIBRARY(PCAP_LIBRARY
-    NAMES
-      pcap
-  )
-
-ENDIF(EXISTS $ENV{PCAPDIR})
+libfind_pkg_check_modules(PCAP pcap)
 
 SET(PCAP_INCLUDE_DIRS ${PCAP_INCLUDE_DIR})
+SET(PCAP_LIBRARY ${PCAP_LIBRARY_DIRS}/libpcap.so)
 SET(PCAP_LIBRARIES ${PCAP_LIBRARY})
 
 IF(PCAP_INCLUDE_DIRS)
