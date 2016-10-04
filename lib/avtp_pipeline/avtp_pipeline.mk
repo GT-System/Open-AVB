@@ -16,6 +16,6 @@ clean:
 build/Makefile:
 	mkdir -p build && \
 	cd build && \
-	cmake -DCMAKE_TOOLCHAIN_FILE=../platform/Linux/x86_i210_linux.cmake \
+	cmake -DCMAKE_TOOLCHAIN_FILE=../platform/Linux/arm_i210_linux.cmake \
 	      -DAVB_FEATURE_ENDPOINT=$(AVB_FEATURE_ENDPOINT) \
               ..
